@@ -20,7 +20,22 @@ const router = createRouter({
     {
       path: '/nav',
       name: 'nav',
-      component: () => import('../views/NavView.vue')
+      component: () => import('../views/NavView-1.vue')
+    },
+    {
+      path: '/navAPI',
+      name: 'navAPI',
+      component: () => import('../views/NavAPI-2.vue')
+    },
+    {
+      path: '/navFilter',
+      name: 'navFilter',
+      component: () => import('../views/NavAPIFilter-3.vue')
+    },
+    {
+      path: '/navAPIButtons',
+      name: 'navAPIButtons',
+      component: () => import('../views/NavAPIButtons-4.vue')
     },
   ]
 })
