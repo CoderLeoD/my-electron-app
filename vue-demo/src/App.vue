@@ -13,10 +13,10 @@ import HelloWorld from './components/HelloWorld.vue'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/nav">NavView-CSDN</RouterLink>
-        <RouterLink to="/navAPI">NavAPI-Self-探索1</RouterLink>
-        <RouterLink to="/navFilter">NavAPI-Filter-探索2</RouterLink>
-        <RouterLink to="/navAPIButtons">NavAPI-Buttons-探索3</RouterLink>
+        <RouterLink to="/nav">NavView-CSDN-1</RouterLink>
+        <RouterLink to="/navAPI">NavAPI-Self-探索2</RouterLink>
+        <RouterLink to="/navFilter">NavAPI-Filter-探索3</RouterLink>
+        <RouterLink to="/navAPIButtons">NavAPI-Buttons-探索4</RouterLink>
       </nav>
     </div>
   </header>
