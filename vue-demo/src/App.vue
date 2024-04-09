@@ -80,6 +80,8 @@ nav a:first-of-type {
 
 .router_section {
   width: 80vw;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 /* @media (min-width: 1024px) {
