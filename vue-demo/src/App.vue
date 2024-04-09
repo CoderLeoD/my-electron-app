@@ -5,10 +5,10 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld msg="前端技术预研!" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -17,22 +17,33 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/navAPI">NavAPI-Self-探索2</RouterLink>
         <RouterLink to="/navFilter">NavAPI-Filter-探索3</RouterLink>
         <RouterLink to="/navAPIButtons">NavAPI-Buttons-探索4</RouterLink>
+        <RouterLink to="/preResearch">Vue-功能探索-1</RouterLink>
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <section class="router_section">
+    <RouterView />
+  </section>
 </template>
 
 <style scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
+  height: 100vh;
+  width: 20vw;
+  display: flex;
+  flex-wrap: wrap;
+  place-items: center;
+  background-color: lightcyan;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+header .wrapper {
+  width: 100%;
+  display: flex;
+  place-items: flex-start;
+  flex-wrap: wrap;
 }
 
 nav {
@@ -40,10 +51,16 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  font-size: 1rem;
 }
 
 nav a.router-link-exact-active {
   color: var(--color-text);
+  color: #ffffff;
+  background-color: lightseagreen !important;
 }
 
 nav a.router-link-exact-active:hover {
@@ -52,15 +69,20 @@ nav a.router-link-exact-active:hover {
 
 nav a {
   display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  display: block;
+  width: 100%;
+  padding: 16px;
 }
 
 nav a:first-of-type {
   border: 0;
 }
 
-@media (min-width: 1024px) {
+.router_section {
+  width: 80vw;
+}
+
+/* @media (min-width: 1024px) {
   header {
     display: flex;
     place-items: center;
@@ -85,5 +107,5 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
-}
+} */
 </style>

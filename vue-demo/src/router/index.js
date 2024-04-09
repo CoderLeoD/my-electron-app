@@ -37,6 +37,11 @@ const router = createRouter({
       name: 'navAPIButtons',
       component: () => import('../views/NavAPIButtons-4.vue')
     },
+    {
+      path: '/preResearch',
+      name: 'preResearch',
+      component: () => import('../views/PreResearch.vue')
+    },
   ]
 })
 
