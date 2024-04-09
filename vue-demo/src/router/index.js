@@ -42,6 +42,11 @@ const router = createRouter({
       name: 'preResearch',
       component: () => import('../views/PreResearch.vue')
     },
+    {
+      path: '/serialAPI',
+      name: 'serialAPI',
+      component: () => import('../views/SerialAPI.vue')
+    },
   ]
 })
 

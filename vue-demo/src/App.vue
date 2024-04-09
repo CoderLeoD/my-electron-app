@@ -18,6 +18,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/navFilter">NavAPI-Filter-探索3</RouterLink>
         <RouterLink to="/navAPIButtons">NavAPI-Buttons-探索4</RouterLink>
         <RouterLink to="/preResearch">Vue-功能探索-1</RouterLink>
+        <RouterLink to="/serialAPI">Vue-SerialAPI</RouterLink>
       </nav>
     </div>
   </header>

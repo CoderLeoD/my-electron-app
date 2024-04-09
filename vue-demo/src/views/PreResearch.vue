@@ -13,6 +13,9 @@
   <section><img src="" alt="" ref="photoImg" /></section>
   <button @click="getCamera">调取摄像头</button>
   <button @click="tackCapture">拍照</button>
+  <hr>
+  <button @click="getConnection">网络连接信息对象</button>
+  <button @click="getKeyboard">Navigator.keyboard</button>
 </template>
 
 <script setup>
@@ -91,6 +94,21 @@ function tackCapture() {
     false
   )
 }
+
+/**
+ * 三，Navigator
+ */
+function getConnection() {
+  // 提供一个 NetworkInformation 对象来获取设备的网络连接信息
+  console.log('xdl-', navigator.connection)
+}
+function getKeyboard() {
+  // 提供一个 NetworkInformation 对象来获取设备的网络连接信息
+  console.log('xdl-', navigator.bluetooth)
+}
+
+
+
 </script>
 
 <style scoped>
