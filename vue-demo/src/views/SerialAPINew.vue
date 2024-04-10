@@ -124,6 +124,7 @@
       </el-col>
     </el-row>
   </el-form>
+  <p>注：Vue 无法获取串口的硬件信息，如果需要获取 串口的硬件信息，需要使用 Electron 或 其它第三方库</p>
 </template>
 
 <script setup>
