@@ -11,14 +11,15 @@ import HelloWorld from './components/HelloWorld.vue'
       <HelloWorld msg="前端技术预研!" />
 
       <nav>
-        <RouterLink to="/">Home</RouterLink>
+        <!-- <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/nav">NavView-CSDN-1</RouterLink>
         <RouterLink to="/navAPI">NavAPI-Self-探索2</RouterLink>
         <RouterLink to="/navFilter">NavAPI-Filter-探索3</RouterLink>
-        <RouterLink to="/navAPIButtons">NavAPI-Buttons-探索4</RouterLink>
+        <RouterLink to="/navAPIButtons">NavAPI-Buttons-探索4</RouterLink> -->
         <RouterLink to="/preResearch">Vue-功能探索-1</RouterLink>
-        <RouterLink to="/serialAPI">Vue-SerialAPI</RouterLink>
+        <!-- <RouterLink to="/serialAPI">Vue-SerialAPI</RouterLink> -->
+        <RouterLink to="/serialAPINew">Vue-SerialAPINew</RouterLink>
       </nav>
     </div>
   </header>
@@ -34,9 +35,9 @@ header {
   max-height: 100vh;
   height: 100vh;
   width: 20vw;
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
-  place-items: center;
+  place-items: center; */
   background-color: lightcyan;
 }
 

@@ -38,7 +38,12 @@
                 placeholder="请输入波特率"
                 :disabled="isDisable"
               >
-                <i class="el-icon-edit el-input__icon" slot="suffix"> </i>
+                <!-- <i class="el-icon-edit el-input__icon" slot="suffix"> </i> -->
+                <template #suffix>
+                  <el-icon class="el-input__icon" @click="handleIconClick">
+                    <edit />
+                  </el-icon>
+                </template>
                 <template slot-scope="{ item }">
                   <div class="name">{{ item.value }}</div>
                   <span class="addr">{{ item.address }}</span>

@@ -20,22 +20,22 @@ const router = createRouter({
     {
       path: '/nav',
       name: 'nav',
-      component: () => import('../views/NavView-1.vue')
+      component: () => import('../views/revoke/NavView-1.vue')
     },
     {
       path: '/navAPI',
       name: 'navAPI',
-      component: () => import('../views/NavAPI-2.vue')
+      component: () => import('../views/revoke/NavAPI-2.vue')
     },
     {
       path: '/navFilter',
       name: 'navFilter',
-      component: () => import('../views/NavAPIFilter-3.vue')
+      component: () => import('../views/revoke/NavAPIFilter-3.vue')
     },
     {
       path: '/navAPIButtons',
       name: 'navAPIButtons',
-      component: () => import('../views/NavAPIButtons-4.vue')
+      component: () => import('../views/revoke/NavAPIButtons-4.vue')
     },
     {
       path: '/preResearch',
@@ -45,7 +45,12 @@ const router = createRouter({
     {
       path: '/serialAPI',
       name: 'serialAPI',
-      component: () => import('../views/SerialAPI.vue')
+      component: () => import('../views/revoke/SerialAPI.vue')
+    },
+    {
+      path: '/serialAPINew',
+      name: 'serialAPINew',
+      component: () => import('../views/SerialAPINew.vue')
     },
   ]
 })

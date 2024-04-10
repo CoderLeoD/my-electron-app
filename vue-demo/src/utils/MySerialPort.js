@@ -1,3 +1,5 @@
+import { ElMessage } from 'element-plus'
+
 export default class MySerialPort {
   constructor() {
     this.state = {
@@ -43,7 +45,8 @@ export default class MySerialPort {
       await navigator.serial.requestPort()
       await this.getPorts()
     } catch (e) {
-      this.$message.error(e.toString())
+      ElMessage.error(e.toString())
+      throw new Error(e.toString())
     }
   }
   async openPort(portIndex, isOpen, callBack = null) {
@@ -95,7 +98,7 @@ export default class MySerialPort {
           }, 300) //串口缓存
         }
       } catch (error) {
-        this.$message.error(error.toString())
+        ElMessage.error(error.toString())
       } finally {
         this.reader.releaseLock()
       }
@@ -117,7 +120,7 @@ export default class MySerialPort {
   portWrite(value) {
     return new Promise(async (resolve, reject) => {
       if (!this.state.isOpen) {
-        this.$message.error('串口未打开')
+        ElMessage.error('串口未打开')
         reject()
         return
       } else {
