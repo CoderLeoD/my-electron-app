@@ -52,6 +52,11 @@ const router = createRouter({
       name: 'serialAPINew',
       component: () => import('../views/SerialAPINew.vue')
     },
+    {
+      path: '/electronIPC',
+      name: 'electronIPC',
+      component: () => import('../views/ElectronIPC.vue')
+    },
   ]
 })
 

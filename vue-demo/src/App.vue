@@ -20,6 +20,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/preResearch">Vue-功能探索-1</RouterLink>
         <!-- <RouterLink to="/serialAPI">Vue-SerialAPI</RouterLink> -->
         <RouterLink to="/serialAPINew">Vue-SerialAPINew</RouterLink>
+        <RouterLink to="/electronIPC">Vue-ElectronIPC</RouterLink>
       </nav>
     </div>
   </header>
