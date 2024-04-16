@@ -26,3 +26,14 @@ window.addEventListener('DOMContentLoaded', () => {
  * 
  * 要将此脚本附加到渲染器流程，请在你现有的 BrowserWindow 构造器中将路径中的预加载脚本传入 webPreferences.preload 选项。(也就是 main.js 中的 BrowserWindow() 方法)
  */
+
+/**
+ * 主线程 与 渲染线程 通讯 预加载
+ */
+const { contextBridge, ipcRenderer } = require('electron')
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  onSerialPorts: (callback) => ipcRenderer.on('serial-ports', (_event, value) => callback(value)),
+  onSerialDatas: (callback) => ipcRenderer.on('serial-datas', (_event, value) => callback(value))
+})
+

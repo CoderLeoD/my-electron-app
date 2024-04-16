@@ -1,29 +1,16 @@
 <template>
   <div>Electron IPC</div>
+  <h1>串口发送数据：{{ portValue }}</h1>
+  <h1>串口发送数据：{{ portData.portDatas }}</h1>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import { ipcRenderer } from 'electron'
+import { usePortDataStore } from '@/stores/port';
+import { computed } from 'vue'
 
+const portData = usePortDataStore()
 
-
-onMounted(() => {
-  getPorts()
-})
-
-const serialPorts = ref([])
-
-function getPorts() {
-  // 监听从主进程传递过来的串口信息
-  ipcRenderer.on('serial-ports', (event, ports) => {
-    serialPorts.value = ports;
-    console.log('xdl-来了，老弟', event)
-    console.log('xdl-来了，老弟', ports)
-  })
-}
-
-
+const portValue = computed(() => portData.portDatas)
 
 </script>
 

@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 // 需在当前文件内开头引入 Node.js 的 'path' 模块
-const path = require('path');
+const path = require('node:path');
 
 const { SerialPort } = require('serialport');
 
@@ -9,12 +9,13 @@ let mainWindow;
 // 添加一个createWindow()方法来将index.html加载进一个新的BrowserWindow实例。
 const createWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 1200,
     height: 600,
     webPreferences: {
       // nodeIntegration: false,
       nodeIntegration: true,
-      contextIsolation: false,
+      // contextIsolation: false,
+      contextIsolation: true,
       /**
        * 使用一个相对当前正在执行JavaScript文件的路径，这样您的相对路径将在开发模式和打包模式中都将有效。
        * 
@@ -39,76 +40,94 @@ const createWindow = () => {
   // mainWindow.loadFile('./vue-demo/dist/index.html')
   mainWindow.loadURL('http://localhost:5173')
 
-  // 获取串口信息
-  console.log('xdl-electron', SerialPort)
-  SerialPort.list().then(ports => {
-    console.log('xdl-electron', ports)
-    mainWindow.webContents.send('serial-ports', ports);
-  })
+
+  /**
+   * 方案0: 纯 Vue 的 B/S 模型中, Vue 可以识别出有多少个串口, 但是不能识别 串口的硬件信息, 但是 Vue 通过测试, 匹配成功端口之后, 是可以 接收到 串口发送的数据的
+   * 
+   * 如果要获取 串口的硬件 信息, 比如 串口名称 等, 就需要 electron 来介入了.
+   */
+
+
+  /**
+   * 方案一: electron 获取串口列表之后, 发送给 Vue, 而后在 前端页面展示 串口列表, 用户可灵活选择串口某一个串口进行连接
+   * 
+   * 目前 阻塞障碍: electron 与 vue 通讯方面, serialport 12 版本的很多 API 语法发生变化, 需要多查看 serialport API
+   * 
+  */
+  // sendPortsToVue(mainWindow);
 
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
-  //处理serialApi
-  // serialApiHandle(mainWindow)
+
+  /**
+   * 方案二: 前端界面不选择串口, electron 进行监控, 只要收到 串口数据就 记录/发送/显示
+   * 
+   * 创建 serial port 监听
+   * 
+   * 该方案 可以实现: 无论哪个串口有数据发送进来就会记录发送
+   */
+  watchPortsData();
 }
 
-function serialApiHandle(mainWindow){
-
-  mainWindow.webContents.session.on('select-serial-port', (event, portList, webContents, callback) => {
-    // Add listeners to handle ports being added or removed before the callback for `select-serial-port`
-    // is called.
-    mainWindow.webContents.session.on('serial-port-added', (event, port) => {
-      console.log('serial-port-added FIRED WITH', port)
-      // Optionally update portList to add the new port
-    })
-
-    mainWindow.webContents.session.on('serial-port-removed', (event, port) => {
-      console.log('serial-port-removed FIRED WITH', port)
-      // Optionally update portList to remove the port
-    })
-
-    event.preventDefault();
-    console.log(portList,'portList')
-    if (portList && portList.length > 0) {
-      //默认返回第一个串口id
-      callback(portList[0].portId)
-    } else {
-      // eslint-disable-next-line n/no-callback-literal
-      callback('') // Could not find any matching devices
-    }
-  })
-  //授权
-  mainWindow.webContents.session.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
-    if (permission === 'serial') {
-      return true
-    }
-
-    return false
-  })
-  //授权
-  mainWindow.webContents.session.setDevicePermissionHandler((details) => {
-    if (details.deviceType === 'serial') {
-      return true
-    }
-
-    return false
+// 方案一对应函数
+function sendPortsToVue(mainWindow) {
+  // 获取串口信息
+  console.log('xdl-electron', SerialPort)
+  SerialPort.list().then(ports => {
+    console.log('xdl-electron-send-msg', ports)
+    setTimeout(() => {
+      /**
+       * 发送所有 ports 给前端这种形式可能存在一个问题：
+       * electron 主线程这边获取到 ports 发送给 Vue 渲染线程时，Vue 还没有准备完毕，没有完成接收动作。
+       * 这样的话，数据就会丢失。
+       * 
+       * 暂时的方案是 延迟500ms 发送，但当 Vue 越来越大时，时间就不确定了。
+       * 
+       * 这样看来，方案二会好一点，方案二可以在接收到 串口数据 之后 再 send，此时 Vue 应该渲染完毕，
+       * 即使不渲染完毕，操作员看到页面没有数据，再次执行扫码等操作也就可以将数据发送成功
+       */
+      mainWindow.webContents.send('serial-ports', ports);
+    }, 500);
   })
 }
 
-
-
-
-
-
+// 方案二对应函数
+function watchPortsData() {
+  SerialPort.list().then(ports => {
+    console.log('xdl-electron-ports', ports)
+    ports.forEach(port => {
+      if (port.path) {
+        const sp = new SerialPort({ path: port.path, baudRate: 9600 }, err => {
+          if (err) {
+            return console.error('Error opening port: ', err.message);
+          }
+        });
+   
+        sp.on('data', data => {
+          console.log(`Data received: ${data}`);
+          // 在这里处理接收到的数据
+          mainWindow.webContents.send('serial-datas', data);
+        });
+   
+        sp.on('error', err => {
+          console.error('Error: ', err.message);
+        });
+      }
+    });
+  })
+}
 
 
 // 调用createWindow()函数来打开您的窗口。
-app.whenReady().then(() => {
-  createWindow()
-})
+// app.whenReady().then(() => {
+//   createWindow()
+// })
 
 
+/**
+ * 可以使用 ipcMain 在主线程中监控渲染线程 send 的信号
+ */
 ipcMain.on('open-serial-port', (event, portName) => {
   // 在此处添加打开串口的代码
   // 例如：SerialPort.open(portName);
@@ -146,10 +165,11 @@ app.on('window-all-closed', () => {
  * 
  * 因为窗口无法在 ready 事件前创建，你应当在你的应用初始化后仅监听 activate 事件。 通过在您现有的 whenReady() 回调中附上您的事件监听器来完成这个操作。
  */
-// app.whenReady().then(() => {
-//   createWindow()
+app.whenReady().then(() => {
+  createWindow()
 
-//   app.on('activate', () => {
-//     if (BrowserWindow.getAllWindows().length === 0) createWindow()
-//   })
-// })
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+})
+
